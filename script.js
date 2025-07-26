@@ -4,7 +4,7 @@ function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.read = (read=='Read already')?true:false;
+    this.read = (read=='yes')?true:false;
     this.id = crypto.randomUUID();
     this.hueDeg = 15 * (Math.floor(Math.random() * 23) + 1);
     this.info = function () {
@@ -44,35 +44,40 @@ function addBookToLibrary() {
     let read = formData.get('readStatus');
     let newBook = new Book(title, author, pages, read);
     myLibrary.push(newBook);
-    display();
+    display(newBook);
 }
 
-function display() {
-    for (let book of myLibrary) {
-        console.log(book);
-        const newChild  = document.createElement('div.card');
-        newChild.innerHTML = `<div>
-                    <img src="./image/Book.jpg" alt="Book" style="filter: hue-rotate(${book.hueDeg}deg)">
-                    <p>${book.title}</p>
-                    <p>${book.author}</p>
-                </div>
-                <button type="submit"><img src="./image/check.svg" alt="Mark as Read" class="icons" title="Mark as read"></button>
-                <button type="reset"><img src="./image/delete-outline.svg" alt="Delete icon" title="Delete" class="icons"></button>`
-        books.insertBefore(newChild, books.lastElementChild);
-        const bookInfo = newChild.querySelector(".card > div");
-        bookInfo.classList.add("book");
-        const bookTitle = newChild.querySelector(".card > p:first-of-type");
-        bookTitle.classList.add("title");
-        const bookAuthor = newChild.querySelector(".card > p:last-of-type");
-        bookTitle.classList.add("author");
-        if (book.read) {
-            const checked = newChild.querySelector("button[type='submit']");
-            checked.classList.toggle("inactve");
-        }
+function display(book) {
+    const newChild  = document.createElement('div');
+    newChild.innerHTML = `<div>
+                <img src="./image/Book.jpg" alt="Book" style="filter: hue-rotate(${book.hueDeg}deg)">
+                <p>${book.title}</p>
+                <p>${book.author}</p>
+            </div>
+            <button type="submit"><img src="./image/check.svg" alt="Mark as Read" class="icons" title="Mark as read"></button>
+            <button type="reset"><img src="./image/delete-outline.svg" alt="Delete icon" title="Delete" class="icons"></button>`
+    books.insertBefore(newChild, books.lastElementChild);
+    newChild.classList.add("card");
+    const bookInfo = newChild.querySelector(".card > div");
+    bookInfo.classList.add("book");
+    const bookTitle = newChild.querySelector(".book > p:first-of-type");
+    bookTitle.classList.add("title");
+    const bookAuthor = newChild.querySelector(".book > p:last-of-type");
+    bookAuthor.classList.add("author");
+    if (book.read) {
+        const checked = newChild.querySelector("button[type='submit']");
+        checked.classList.toggle("inactive");
+        checked.previousElementSibling.style = "grid-column: span 1"
     }
 }
 
 books.addEventListener('click', () => {
-    if (event.target.matches('button[type="submit"]'))
-        event.target.classList.toggle("inactive");
+    const parentNode = event.target.parentElement;
+    if (parentNode.matches('button[type="submit"]')) {
+        parentNode.classList.toggle("inactive");
+        parentNode.previousElementSibling.style = "grid-column: span 1";
+    }
+    else if (parentNode.matches('button[type="reset"]')) {
+        parentNode.parentElement.classList.toggle("inactive");
+    }
 });

@@ -25,7 +25,7 @@ body {
 main {
     flex: 1;
     display: flex;
-    background-color: rgb(116 23 23);
+    background-color: rgb(141 204 68);
 }
 
 main > * {
@@ -166,6 +166,10 @@ form > button {
     color: white;
     background-color: rgb(255, 0, 0);
     box-shadow: 1px 3px 4px black;
+}
+
+button:hover {
+    filter: grayscale(0.1);
 }
 
 .inactive {
