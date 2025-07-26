@@ -168,6 +168,19 @@ form > button {
     box-shadow: 1px 3px 4px black;
 }
 
+input:focus {
+    border: none;
+    outline: 2px solid blue;
+}
+
+input:valid {
+    border-color: rgb(0, 170, 0);
+}
+
+input:invalid {
+    border-color: red;
+}
+
 button:hover {
     filter: grayscale(0.1);
     cursor: pointer;
