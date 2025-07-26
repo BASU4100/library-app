@@ -49,13 +49,14 @@ function addBookToLibrary() {
 
 function display(book) {
     const newChild  = document.createElement('div');
+    newChild.setAttribute("data-id", book.id);
     newChild.innerHTML = `<div>
-                <img src="./image/Book.jpg" alt="Book" style="filter: hue-rotate(${book.hueDeg}deg)">
-                <p>${book.title}</p>
-                <p>${book.author}</p>
-            </div>
-            <button type="submit"><img src="./image/check.svg" alt="Mark as Read" class="icons" title="Mark as read"></button>
-            <button type="reset"><img src="./image/delete-outline.svg" alt="Delete icon" title="Delete" class="icons"></button>`
+    <img src="./image/Book.jpg" alt="Book" style="filter: hue-rotate(${book.hueDeg}deg)">
+    <p>${book.title}</p>
+    <p>${book.author}</p>
+    </div>
+    <button type="submit"><img src="./image/check.svg" alt="Mark as Read" class="icons" title="Mark as read"></button>
+    <button type="reset"><img src="./image/delete-outline.svg" alt="Delete icon" title="Delete" class="icons"></button>`
     books.insertBefore(newChild, books.lastElementChild);
     newChild.classList.add("card");
     const bookInfo = newChild.querySelector(".card > div");
@@ -78,6 +79,13 @@ books.addEventListener('click', () => {
         parentNode.previousElementSibling.style = "grid-column: span 1";
     }
     else if (parentNode.matches('button[type="reset"]')) {
-        parentNode.parentElement.classList.toggle("inactive");
+        let cardId = parentNode.parentElement.dataset.id;
+        parentNode.parentElement.remove();
+        for (let book in myLibrary) {
+            if (myLibrary[book].id == cardId) {
+                myLibrary.splice(book, 1);
+                break;
+            }
+        }
     }
 });
