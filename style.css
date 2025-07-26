@@ -170,6 +170,7 @@ form > button {
 
 button:hover {
     filter: grayscale(0.1);
+    cursor: pointer;
 }
 
 .inactive {
