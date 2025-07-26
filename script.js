@@ -75,23 +75,33 @@ function display(book) {
 books.addEventListener('click', () => {
     const parentNode = event.target.parentElement;
     let cardId = parentNode.parentElement.dataset.id;
-    if (parentNode.matches('button[type="submit"]')) {
-        parentNode.previousElementSibling.style = "grid-column: span 1";
-        parentNode.remove();
-        for (let book in myLibrary) {
-            if (myLibrary[book].id == cardId) {
-                myLibrary[book].read = true;
-                break;
-            }
-        }
-    }
-    else if (parentNode.matches('button[type="reset"]')) {
-        parentNode.parentElement.remove();
-        for (let book in myLibrary) {
-            if (myLibrary[book].id == cardId) {
-                myLibrary.splice(book, 1);
-                break;
-            }
-        }
-    }
+    if (parentNode.matches('button[type="submit"]'))
+        markAsRead(parentNode, cardId);
+    else if (event.target.matches('button[type="submit"]'))
+        markAsRead(event.target, cardId)
+    else if (parentNode.matches('button[type="reset"]'))
+        deleteBook(parentNode, cardId);
+    else if (event.target.matches('button[type="reset"]'))
+        deleteBook(event.target, cardId);
 });
+
+function markAsRead(node, id) {
+    node.previousElementSibling.style = "grid-column: span 1";
+    node.remove();
+    for (let book in myLibrary) {
+        if (myLibrary[book].id == cardId) {
+            myLibrary[book].read = true;
+            break;
+        }
+    }
+}
+
+function deleteBook(node, id) {
+    node.parentElement.remove();
+    for (let book in myLibrary) {
+        if (myLibrary[book].id == cardId) {
+            myLibrary.splice(book, 1);
+            break;
+        }
+    }
+}
