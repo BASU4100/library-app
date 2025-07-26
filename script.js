@@ -67,19 +67,25 @@ function display(book) {
     bookAuthor.classList.add("author");
     if (book.read) {
         const checked = newChild.querySelector("button[type='submit']");
-        checked.classList.toggle("inactive");
-        checked.previousElementSibling.style = "grid-column: span 1"
+        checked.previousElementSibling.style = "grid-column: span 1";
+        checked.remove();
     }
 }
 
 books.addEventListener('click', () => {
     const parentNode = event.target.parentElement;
+    let cardId = parentNode.parentElement.dataset.id;
     if (parentNode.matches('button[type="submit"]')) {
-        parentNode.classList.toggle("inactive");
         parentNode.previousElementSibling.style = "grid-column: span 1";
+        parentNode.remove();
+        for (let book in myLibrary) {
+            if (myLibrary[book].id == cardId) {
+                myLibrary[book].read = true;
+                break;
+            }
+        }
     }
     else if (parentNode.matches('button[type="reset"]')) {
-        let cardId = parentNode.parentElement.dataset.id;
         parentNode.parentElement.remove();
         for (let book in myLibrary) {
             if (myLibrary[book].id == cardId) {
