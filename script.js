@@ -24,16 +24,16 @@ addNewBook.addEventListener('click', () => {
     form.classList.toggle("inactive");
 });
 
-addBook.addEventListener('click', () => {
+addBook.addEventListener('click', (e) => {
     if (form.checkValidity()==false) {
-        event.preventDefault();
+        e.preventDefault();
         return;
     }
     form.classList.toggle("inactive");
     parent.classList.toggle("inactive");
     addBookToLibrary();
     form.reset();
-    event.preventDefault();
+    e.preventDefault();
 });
 
 function addBookToLibrary() {
@@ -72,24 +72,24 @@ function display(book) {
     }
 }
 
-books.addEventListener('click', () => {
-    const parentNode = event.target.parentElement;
+books.addEventListener('click', (e) => {
+    const parentNode = e.target.parentElement;
     let cardId = parentNode.parentElement.dataset.id;
     if (parentNode.matches('button[type="submit"]'))
         markAsRead(parentNode, cardId);
-    else if (event.target.matches('button[type="submit"]'))
-        markAsRead(event.target, cardId)
+    else if (e.target.matches('button[type="submit"]'))
+        markAsRead(e.target, cardId)
     else if (parentNode.matches('button[type="reset"]'))
         deleteBook(parentNode, cardId);
-    else if (event.target.matches('button[type="reset"]'))
-        deleteBook(event.target, cardId);
+    else if (e.target.matches('button[type="reset"]'))
+        deleteBook(e.target, cardId);
 });
 
 function markAsRead(node, id) {
     node.previousElementSibling.style = "grid-column: span 1";
     node.remove();
     for (let book in myLibrary) {
-        if (myLibrary[book].id == cardId) {
+        if (myLibrary[book].id == id) {
             myLibrary[book].read = true;
             break;
         }
@@ -99,7 +99,7 @@ function markAsRead(node, id) {
 function deleteBook(node, id) {
     node.parentElement.remove();
     for (let book in myLibrary) {
-        if (myLibrary[book].id == cardId) {
+        if (myLibrary[book].id == id) {
             myLibrary.splice(book, 1);
             break;
         }
